@@ -23,7 +23,7 @@ CREATE TABLE [Lecturers] (
 	GroupName NVARCHAR(30) NOT NULL,
 	CourseID INT FOREIGN KEY REFERENCES Courses(CourseID),
 	LectureID INT FOREIGN KEY REFERENCES Lecturers(LectureID),
-    StartDate date, 
+    	StartDate date, 
 	EndDate date 
 )
 CREATE TABLE [Assessment](
