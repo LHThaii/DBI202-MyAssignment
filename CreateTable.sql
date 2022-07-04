@@ -1,20 +1,34 @@
 CREATE TABLE [Students](
-	StudentID INT PRIMARY KEY,
-	StudentName VARCHAR(30) NOT NULL,
+	StudentID VARCHAR(10) PRIMARY KEY,
+	StudentName NVARCHAR(30) NOT NULL,
 	DoB date NOT NULL,
 	Address VARCHAR(30) NOT NULL,
-	Gender VARCHAR (30) NOT NULL
-	)
+	PhoneNumber VARCHAR(10)
+)
 CREATE TABLE [Courses] (
 	CourseID INT PRIMARY KEY,
 	CourseCode VARCHAR(30) NOT NULL,
-	CourseName VARCHAR(30) NOT NULL,
-	StartDate date, 
-	EndDate date )
+	CourseName NVARCHAR(30) NOT NULL,
+	 
+)
+CREATE TABLE [Lecturers] (
+	LectureID INT PRIMARY KEY,
+	LectureName NVARCHAR (30) NOT NULL,
+	LectureEmail NVARCHAR(30) NOT NULL,
+	LecturePhone NVARCHAR(10)
+	)
+	CREATE TABLE [Group] (
+	StudentID VARCHAR(10)NOT NULL FOREIGN KEY REFERENCES[Students](StudentID),
+	GroupID VARCHAR(10) PRIMARY KEY,
+	GroupName NVARCHAR(30) NOT NULL,
+	CourseID INT FOREIGN KEY REFERENCES Courses(CourseID),
+	LectureID INT FOREIGN KEY REFERENCES Lecturers(LectureID),
+    StartDate date, 
+	EndDate date 
+)
 CREATE TABLE [Assessment](
 	CourseID INT FOREIGN KEY REFERENCES Courses(CourseID),
-	AssessmentID INT PRIMARY KEY,
-	Category VARCHAR(30) NOT NULL,
+	Category VARCHAR(30) NOT NULL PRIMARY KEY,
 	[Type] NVARCHAR(30) not null CHECK ([type] in ('quiz','on-going','pratical exam','final exam')),
 	Part INT NOT NULL,
 	[Weight] FLOAT NOT NULL,
@@ -27,31 +41,13 @@ CREATE TABLE [Assessment](
 	[Grading Guide] VARCHAR(150),
 	[Note] VARCHAR (150)
 	)
-CREATE TABLE [Transcript](
-	
+
+
+CREATE TABLE [Detailed Result](
+	StudentID VARCHAR(10) NOT NULL FOREIGN KEY REFERENCES[Students](StudentID),
+	Category VARCHAR(30) NOT NULL FOREIGN KEY REFERENCES[Assessment](Category),
+	Item NVARCHAR(30) PRIMARY KEY,
+	[Weight] INT NOT NULL,
+	Value FLOAT NOT NULL,
+	Comment NVARCHAR(30)
 )
-CREATE TABLE [Lecturers] (
-	LectureID INT PRIMARY KEY,
-	LectureName VARCHAR (30),
-	LectureEmail NVARCHAR(30),
-	LecturePhone NVARCHAR(10)
-	)
-CREATE TABLE [Semester](
-	SemesterID INT PRIMARY KEY,
-	SemesterName VARCHAR (30)
-	)
-CREATE TABLE [Group] (
-	GroupID INT PRIMARY KEY,
-	GroupName VARCHAR(30) NOT NULL,
-	CourseID INT FOREIGN KEY REFERENCES Courses(CourseID),
-	LectureID INT FOREIGN KEY REFERENCES Lecturers(LectureID)
-
-	)
-CREATE TABLE [Results at the end of semester](
-	ROS INT PRIMARY KEY,
-	StudentID INT FOREIGN KEY REFERENCES Students(StudentID),
-	CourseCode VARCHAR(30),
-	CourseName VARCHAR(30),
-	SemesterID INT FOREIGN KEY REFERENCES Semester(SemesterID),
-
-	)
